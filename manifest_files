@@ -1,0 +1,187 @@
+
+
+vi ReplicationController.yaml
+
+ name: replicacontol
+spec:
+ replicas: 2
+ selector:
+  value: replica
+ template:
+  metadata:
+   labels:
+    value: replica
+   name: tomcat-pod
+  spec:
+   containers:
+   - name: tomcat-container
+     image: nginx
+     ports:
+     - containerPort: 80
+---------------------------------------------------------------------------
+
+vi ReplicaSet.yaml
+
+
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+ name: replicaset
+spec:
+ replicas: 2
+ selector:
+  matchLabels:
+   value: set
+ template:
+  metadata:
+   name: replica-pod
+   labels:
+    value: set
+  spec:
+   containers:
+   - name: nginx-c1
+     image: nginx
+     ports:
+     - containerPort: 80
+------------------------------------------------------------------------------------
+
+
+vi Deployment.yaml
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: deployment
+spec:
+ strategy:
+  type: RollingUpdate
+  rollingUpdate:
+   maxSurge: 1
+   maxUnavailable: 1
+ minReadySeconds: 30
+ replicas: 2
+ selector:
+  matchLabels:
+   value: deploy
+ template:
+  metadata:
+   name: deploy-pod
+   labels:
+    value: deploy
+  spec:
+   containers:
+   - name: deploy-c1
+     image: nginx:latest
+     ports:
+     - containerPort: 80
+
+---------------------------------------------------
+
+
+vi pv.yaml
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: pv-hostpath
+ labels:
+  type: label
+spec:
+ storageClassName: manual
+ accessModes:
+ - ReadWriteOnce
+ capacity:
+   storage: "1Gi"
+ hostPath:
+   path: "/kube"
+
+--------------------------------------------------------
+
+vi pvc.yaml
+
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: pvc-hostpath
+spec:
+ storageClassName: manual
+ accessModes:
+ - ReadWriteOnce
+ resources:
+   requests:
+    storage: "200Mi"
+
+------------------------------------------------------------
+
+
+ vi  mongo_pv_pvc_pod.yaml
+ 
+ 
+apiVersion: v1
+kind: ReplicationController
+metadata:
+ name: replica-name
+spec:
+ replicas: 2
+ selector:
+  type: replica
+ template:
+  metadata:
+   name: pod-replica
+   labels:
+    type: replica
+  spec:
+   containers:
+   - name: mongo
+     image: mongo
+     ports:
+     - containerPort: 27017
+     volumeMounts:
+     - mountPath: "/data/db"
+       name: host-path
+   volumes:
+   - name: host-path
+     persistentVolumeClaim:
+       claimName: pvc-hostpath
+	   
+-------------------------------------------------------------------------	   
+	   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,90 @@
+
+
+https://medium.com/@HoussemDellai/rbac-with-kubernetes-in-minikube-4deed658ea7b
+
+
+kubectl create ns finance
+
+mkdir cert && cd cert
+
+generate a key using openssl
+  
+  openssl genrsa -out john.key 2048 | 4096
+  
+ 1.2. Generate a Client Sign Request (CSR):
+ 
+    openssl req -new -key john.key -out john.csr -subj "/CN=john/O=finance"
+	
+3. Generate the certificate (CRT)
+
+   openssl x509 -req -in john.csr -CA ~/.minikube/ca.crt -CAkey ~/.minikube/ca.key -CAcreateserial -out john.crt -days 365
+   
+   john.crt file will be create
+   
+   we need to create a kube config file that john can access our k8s cluster
+   
+   either we can send certificate to john and john can create k8s config file himself 
+   
+                                    or 
+									
+   we can create kube configfile for john and we can send  kube config file and he can use his straight away
+
+
+
+john will create kube config file
+
+john required ca.crt john.crt john.key
+
+2. Create a user
+ 
+ 2.1. Set a user entry in kubeconfig
+ 
+     kubectl config set-credentials john --client-certificate=john.crt --client-key=john.key
+
+ kubectl config view
+ 
+we need to add  this user to kubeconfig file 
+
+
+2.2. Set a context entry in kubeconfig
+
+   kubectl config set-context john-context --cluster=minikube --namespace=finance --user=john
+   
+ 
+You can check that it is successfully added to kubeconfig:
+
+  kubectl config view
+  
+2.3. Switching to the created user
+
+Now, instead of using the minikube context, we want to use john-context:
+
+$ kubectl config use-context john-context
+
+$ kubectl config current-context # check the current context
+
+user1-context
+  
+  
+  cat john.crt | base64 -w0
+  
+  kubectl --kubeconfig john.kubeconfig get pods
+  
+  kubectl create role --hlep | grep kubectl
+  
+  kubectl create role john-finance --verb=get,list --resource=pods --namespace=finance
+  
+  kubectl  -n finance get role john-finance -o yaml
+  
+  this we can attach to john that we create Role binding
+  
+  
+  kubectl create rolebinding john-finance-rolebinding --role=john-finance --user=john --namespace=finance
+
+
+  kubectl  -n finance get rolebinding john-finance-rolebinding -o yaml
+
+
+
+   
+									

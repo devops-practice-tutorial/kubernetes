@@ -1,0 +1,60 @@
+
+
+https://get.helm.sh/helm-v2.16.11-linux-amd64.tar.gz
+
+
+tar helm-v2.16.11-linux-amd64.tar.gz
+
+linux-amd64
+
+cd linux-amd64
+
+ls
+https://stackoverflow.com/questions/61954440/how-to-resolve-https-kubernetes-charts-storage-googleapis-com-is-not-a-valid
+
+
+https://helm.sh/docs/intro/install/
+
+https://github.com/helm/helm/releases?after=v3.4.2
+
+
+LICENSE  README.md  helm  tiller
+
+
+sudo mv linux-amd64/helm /usr/local/bin/helm
+
+which helm
+
+helm version
+
+helm version --short --client
+
+ls .helm
+
+kubectl -n kube-system create serviceaccount tiller
+
+kubectl get sa tiller -n kube-system
+
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+
+kubectl get clusterrolebinding tiller
+
+helm init --stable-repo-url https://charts.helm.sh/stable --service-account tiller
+
+
+helm home
+
+helm repo list
+
+helm inspect stable/jenkins
+
+helm fetch stable/jenkins
+
+helm create <chartName>
+
+local   http://127.0.0.1:8879/charts
+
+
+
+
+name: jaibalayya.k8s.local

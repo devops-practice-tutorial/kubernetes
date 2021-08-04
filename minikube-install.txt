@@ -1,0 +1,85 @@
+
+Refferd Link :-  https://www.bogotobogo.com/DevOps/Docker/Docker-Kubernetes-Minikube-install-on-AWS-EC2.php
+
+
+
+                 ====>>       Run this commands using normal user (ubuntu)   <<======
+
+
+1.Download the latest release with the command:-
+================================================
+
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+
+                  2.Make the kubectl binary executable:
+
+                          chmod +x ./kubectl
+
+                  3.Move the binary in to your PATH:
+
+                          sudo mv ./kubectl /usr/local/bin/kubectl
+
+                  4. Test to ensure the version you installed is up-to-date:
+
+                          kubectl version --client
+
+
+                  Docker install:
+                  ===============
+
+                         sudo apt-get update -y &&  sudo apt-get install -y docker.io
+
+                         sudo docker version
+
+
+                 Minikube install:
+                 ====================
+
+                        curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+                        && chmod +x minikube \
+                        && sudo mv minikube /usr/local/bin/
+
+                checking minikube version:
+                ========================
+
+                       minikube version
+
+
+               Start minikube:
+               ===============
+
+     =====>>>   Run this commands by using root user  <<=====
+
+                       sudo -i
+
+                      minikube start --driver=none
+
+
+              Install the conntrack:
+              =======================
+
+                     apt install conntrack
+
+
+             Then, try to start minikube again:
+             ==================================
+
+                     minikube start --driver=none
+
+
+             Check the status of the minikube:
+             ===================================
+
+                     minikube status
+
+
+             Check the minikube using kubectl:
+             ================================
+
+                   kubectl get pods
+
+                   kubectl get svc
+
+
+
+

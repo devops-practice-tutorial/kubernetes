@@ -1,0 +1,122 @@
+
+
+docker pull tomcat
+
+docker exec -it <container name or ID> /bin/bash
+
+cp -r webapps.dist/* webapps/
+
+
+
+docker pull sonatype/nexus3:3.0.0
+
+docker pull sonarqube
+
+
+
+
+
+
+
+
+
+
+
+
+
+COPY ./target/maven-web-application.war /usr/local/tomcat-8/webapps/
+
+
+hareeshdock/tomcat:latest
+
+
+
+
+
+
+FROM hareeshdock/tomcat:latest
+
+COPY ./target/maven-web-application.war /usr/local/tomcat-8/webapps/
+
+
+sonar-token
+
+sonar-token
+358ce1cc514c453273eac08576faa712003caa95
+
+
+docker run -d -p 8081:8081 -p 8082:8082 -p 8083:8083 --name my-nexus sonatype/nexus3:3.0.0
+
+
+
+
+https://blog.sonatype.com/using-nexus-3-as-your-repository-part-1-maven-artifacts -----> google
+
+
+In setting.xml
+==================
+
+<servers>
+    <server>
+      <id>nexus-snapshots</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+	
+    <server>
+      <id>nexus-releases</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+  </servers>
+  
+  
+  
+  In pom.xml file
+  ===================
+  
+  
+  <distributionManagement>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <url>http://your-host:8081/repository/maven-snapshots/</url>
+    </snapshotRepository>
+	
+    <repository>
+      <id>nexus-releases</id>
+      <url>http://your-host:8081/repository/maven-releases/</url>
+    </repository>
+  </distributionManagement>
+</project>
+
+
+
+
+
+
+0.0.1-SNAPSHOT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
