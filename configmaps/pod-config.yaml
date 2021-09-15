@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+spec:
+  selector:
+    matchLabels:
+      run: nginx
+  replicas: 2
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        run: nginx
+    spec:
+      containers:
+        - name: nginx-con
+          image: nginx
+          ports:
+          - containerPort: 80
+          volumeMounts:
+          - name: html-vol
+            mountPath: /usr/share/nginx/html/index.html
+            subPath: index.html
+          - name: js-vol
+            mountPath: /usr/share/nginx/html/scorekeeper.js
+            subPath: scorekeeper.js
+          - name: cs-vol
+            mountPath: /usr/share/nginx/html/style.css
+            subPath: style.css
+      volumes:
+      - name: html-vol
+        configMap:
+          name: htmldefault
+      - name: js-vol
+        configMap:
+          name: js
+      - name: cs-vol
+        configMap:
+          name: cs

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-dp1
+spec:
+  strategy:    
+    type: Recreate  
+  replicas: 3
+  selector:
+    matchLabels:      
+      run: nginx
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        run: nginx
+    spec:
+     containers:
+     - name: nginx-con
+       image: nginx:latest
+       ports:
+       - containerPort: 80
+
